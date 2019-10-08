@@ -5,14 +5,14 @@ class DishDetail extends Component {
   constructor(props) {
     super(props);
   }
-  renderDish(selectedDish) {
-    if (selectedDish != null) {
+  renderDish(dish) {
+    if (dish != null) {
       return (
         <Card>
-          <CardImg width="100%" src={selectedDish.image} alt={selectedDish.name} />
+          <CardImg width="100%" src={dish.image} alt={dish.name} />
           <CardBody>
-            <CardTitle>{selectedDish.name}</CardTitle>
-            <CardText>{selectedDish.description}</CardText>
+            <CardTitle>{dish.name}</CardTitle>
+            <CardText>{dish.description}</CardText>
           </CardBody>
         </Card>
       );
@@ -20,14 +20,18 @@ class DishDetail extends Component {
       return <div></div>;
     }
   }
-  renderComments(selectedDish) {
-    if (selectedDish != null) {
-      const commentsDish = selectedDish.comments.map(comment => {
+  renderComments(dish) {
+    if (dish != null) {
+      const commentsDish = dish.comments.map(comment => {
+        console.log(comment);
         return (
           <li key={comment.id}>
             <p>{comment.comment}</p>
             <p>
-              -- {comment.author}, {comment.date}
+              -- {comment.author},{" "}
+              {new Intl.DateTimeFormat("en-US", { year: "numeric", month: "short", day: "2-digit" }).format(
+                new Date(Date.parse(comment.date))
+              )}
             </p>
           </li>
         );
@@ -45,9 +49,11 @@ class DishDetail extends Component {
 
   render() {
     return (
-      <div className="row">
-        <div className="col-12 col-md-5 m-1">{this.renderDish(this.props.selectedDish)}</div>
-        <div className="col-12 col-md-5 m-1">{this.renderComments(this.props.selectedDish)}</div>
+      <div className="container">
+        <div className="row">
+          <div className="col-12 col-md-5 m-1">{this.renderDish(this.props.dish)}</div>
+          <div className="col-12 col-md-5 m-1">{this.renderComments(this.props.dish)}</div>
+        </div>
       </div>
     );
   }
