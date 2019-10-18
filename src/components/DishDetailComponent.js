@@ -22,7 +22,46 @@ const required = val => val && val.length;
 const maxLength = len => val => !val || val.length <= len;
 const minLength = len => val => val && val.length >= len;
 
-class Comment extends Component {
+function RenderDish({ dish }) {
+  return (
+    <div className="col-12 col-md-5 m-1">
+      <Card>
+        <CardImg top src={dish.image} alt={dish.name} />
+        <CardBody>
+          <CardTitle>{dish.name}</CardTitle>
+          <CardText>{dish.description}</CardText>
+        </CardBody>
+      </Card>
+    </div>
+  );
+}
+
+function RenderComments({ comments, addComment, dishId }) {
+  const commentsDish = comments.map(comment => {
+    return (
+      <li key={comment.id}>
+        <p>{comment.comment}</p>
+        <p>
+          -- {comment.author},{" "}
+          {new Intl.DateTimeFormat("en-US", { year: "numeric", month: "short", day: "2-digit" }).format(
+            new Date(Date.parse(comment.date))
+          )}
+        </p>
+      </li>
+    );
+  });
+  if (comments != null)
+    return (
+      <div className="col-12 col-md-5 m-1">
+        <h3>Comments</h3>
+        <ul className="list-unstyled">{commentsDish}</ul>
+        <CommentForm dishId={dishId} addComment={addComment} />
+      </div>
+    );
+  else return <div></div>;
+}
+
+class CommentForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,9 +71,8 @@ class Comment extends Component {
   }
 
   handleSubmit = values => {
-    console.log("Current state is: " + JSON.stringify(values));
-    alert("Current state is: " + JSON.stringify(values));
     this.toggleModal();
+    this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
   };
 
   toggleModal() {
@@ -120,45 +158,6 @@ class Comment extends Component {
   }
 }
 
-function RenderDish({ dish }) {
-  return (
-    <div className="col-12 col-md-5 m-1">
-      <Card>
-        <CardImg top src={dish.image} alt={dish.name} />
-        <CardBody>
-          <CardTitle>{dish.name}</CardTitle>
-          <CardText>{dish.description}</CardText>
-        </CardBody>
-      </Card>
-    </div>
-  );
-}
-
-function RenderComments({ comments }) {
-  const commentsDish = comments.map(comment => {
-    return (
-      <li key={comment.id}>
-        <p>{comment.comment}</p>
-        <p>
-          -- {comment.author},{" "}
-          {new Intl.DateTimeFormat("en-US", { year: "numeric", month: "short", day: "2-digit" }).format(
-            new Date(Date.parse(comment.date))
-          )}
-        </p>
-      </li>
-    );
-  });
-  if (comments != null)
-    return (
-      <div className="col-12 col-md-5 m-1">
-        <h3>Comments</h3>
-        <ul className="list-unstyled">{commentsDish}</ul>
-        <Comment />
-      </div>
-    );
-  else return <div></div>;
-}
-
 const DishDetail = props => {
   if (props.dish != null)
     return (
@@ -177,7 +176,7 @@ const DishDetail = props => {
         </div>
         <div className="row">
           <RenderDish dish={props.dish} />
-          <RenderComments comments={props.comments} />
+          <RenderComments comments={props.comments} addComment={props.addComment} dishId={props.dish.id} />
         </div>
       </div>
     );
