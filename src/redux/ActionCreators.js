@@ -2,16 +2,54 @@ import * as ActionTypes from "./ActionTypes";
 import { DISHES } from "../shared/dishes";
 import { baseUrl } from "../shared/baseUrl";
 
-export const addComment = (dishId, rating, author, comment) => ({
+export const addComment = comment => ({
   type: ActionTypes.ADD_COMMENT,
-  payload: {
+  payload: comment
+});
+export const postComment = (dishId, rating, author, comment) => dispatch => {
+  const newComment = {
     dishId: dishId,
     rating: rating,
     author: author,
     comment: comment
-  }
-});
-
+  };
+  newComment.date = new Date().toISOString();
+  return (
+    fetch(baseUrl + "comments", {
+      method: "POST",
+      body: JSON.stringify(newComment),
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "same-origin"
+    })
+      .then(
+        response => {
+          if (response.ok) {
+            return response;
+          } else {
+            // When the response is an Error:
+            var error = new Error("Error " + response.status + ": " + response.statusText);
+            error.response = response;
+            throw error;
+          }
+        },
+        // When the server doesn't even respond: -> error handler here:
+        error => {
+          // error.message throw some information about the error.
+          var errmess = new Error(error.message);
+          throw errmess;
+        }
+      )
+      .then(response => response.json())
+      .then(response => dispatch(addComment(response)))
+      // An error will cause a rejected promise: Inside the catch we will receive the error.
+      .catch(error => {
+        console.log("Post comments ", error.message);
+        alert("Your comment could not be posted\nError: " + error.message);
+      })
+  );
+};
 export const fetchDishes = () => dispatch => {
   dispatch(dishesLoading(true));
 
