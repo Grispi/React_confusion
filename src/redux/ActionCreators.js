@@ -1,5 +1,4 @@
 import * as ActionTypes from "./ActionTypes";
-import { DISHES } from "../shared/dishes";
 import { baseUrl } from "../shared/baseUrl";
 
 export const postFeedback = (firstname, lastname, telnum, email, agree, contactType, message, id) => dispatch => {
