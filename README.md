@@ -9,6 +9,20 @@
 
 ### This project was developed during a workshop from Coursera - Full-Stack Web Development with React by The Hong Kong University of Science and Technology
 
+## Installation
+
+```bash
+$ yarn
+$ yarn start
+```
+You will need to setup a ```json-server``` with all the data in the file called: ``` db.json ```
+```bash
+$ npm install json-server -g
+$ json-server --watch db.json -p 3001 -d 2000
+
+```
+
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
