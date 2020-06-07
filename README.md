@@ -1,3 +1,15 @@
+## Confusion Ristorante website
+<p align="center">
+    <img src="https://github.com/Grispi/React_confusion/blob/master/public/readme/imageHome.png" alt="Logo" width="70%" height="70%" >
+    <br />
+    <br />
+    <h3 align="center">Demo: Confusion Ristorante</h3>
+    <p  align="center"><img src="https://github.com/Grispi/React_confusion/blob/master/public/readme/React%20App.gif"></p>
+</p>
+
+### This project was developed during a workshop from Coursera - Full-Stack Web Development with React by The Hong Kong University of Science and Technology
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
