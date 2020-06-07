@@ -1,4 +1,4 @@
-## Confusion Ristorante website
+## Ristorante Confusion website
 <p align="center">
     <img src="https://github.com/Grispi/React_confusion/blob/master/public/readme/imageHome.png" alt="Logo" width="70%" height="70%" >
     <br />
